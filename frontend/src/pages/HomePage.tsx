@@ -1,6 +1,11 @@
 import Navbar from "../components/Navbar";
 import logo from "../assets/HomePage/logo.png";
 import sisig from "../assets/HomePage/sisig.png";
+import malupiton from "../assets/HomePage/Testimonial/malupiton.jpeg";
+import lebron from "../assets/HomePage/Testimonial/lebron.jpg";
+import peter from "../assets/HomePage/Testimonial/spiderman.jpg";
+import manny from "../assets/HomePage/Testimonial/manny.jpg";
+import star from "../assets/HomePage/Testimonial/star.png";
 import chef1 from "../assets/HomePage/About/chef-1.jpg";
 import chef2 from "../assets/HomePage/About/chef-2.jpg";
 import bangusH from "../assets/HomePage/CustomerFavorites/bangusH.jpg";
@@ -100,7 +105,113 @@ const Home = (props: Props) => {
         </div>
       </div>
       {/* Testimonials */}
-      <div>Testimonials</div>
+      <div className="min-h-[460px] bg-gradient-to-b from-slate-900 to-black text-white flex flex-col">
+        <div className="text-center text-[30px] py-[15px] font-inknut">
+          <h1 className="text-orange-600">TESTIMONIALS</h1>
+        </div>
+        <div className="flex flex-row gap-[40px] mx-[80px] mb-[40px]">
+          {/* Testimonial 1 */}
+          <div className="bg-slate-800 flex-1 p-[20px] flex flex-col items-center rounded-[20px] shadow-lg">
+            <img
+              className="h-[115px] w-[115px] rounded-full mt-[10px] mb-[20px] border-2 border-orange-600"
+              src={malupiton}
+              alt="Malupiton"
+            />
+            <p className="text-center px-[30px] pb-[15px] text-[16px] text-gray-300">
+              Lorem ipsum dolor sit amet consectetur. Sit commodo non nunc nisl
+              id semper enim gravida eget.
+            </p>
+            <div className="flex flex-row justify-center gap-[5px] mb-2">
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+            </div>
+            <h1 className="text-orange-500 font-bold text-[19px]">MALUPITON</h1>
+            <p className="text-gray-400 leading-none text-[14px]">
+              Content Creator
+            </p>
+          </div>
+
+          {/* Testimonial 2 */}
+          <div className="bg-slate-800 flex-1 p-[20px] flex flex-col items-center rounded-[20px] shadow-lg">
+            <img
+              className="h-[115px] w-[115px] rounded-full mt-[10px] mb-[20px] border-2 border-orange-600"
+              src={lebron}
+              alt="Lebron James"
+            />
+            <p className="text-center px-[30px] pb-[15px] text-[16px] text-gray-300">
+              Lorem ipsum dolor sit amet consectetur. Sit commodo non nunc nisl
+              id semper enim gravida eget.
+            </p>
+            <div className="flex flex-row justify-center gap-[5px] mb-2">
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+            </div>
+            <h1 className="text-orange-500 font-bold text-[19px]">
+              LEBRON JAMES
+            </h1>
+            <p className="text-gray-400 leading-none text-[14px]">
+              NBA Superstar
+            </p>
+          </div>
+
+          {/* Testimonial 3 */}
+          <div className="bg-slate-800 flex-1 p-[20px] flex flex-col items-center rounded-[20px] shadow-lg">
+            <img
+              className="h-[115px] w-[115px] rounded-full mt-[10px] mb-[20px] border-2 border-orange-600"
+              src={peter}
+              alt="Peter Parker"
+            />
+            <p className="text-center px-[30px] pb-[15px] text-[16px] text-gray-300">
+              Lorem ipsum dolor sit amet consectetur. Sit commodo non nunc nisl
+              id semper enim gravida eget.
+            </p>
+            <div className="flex flex-row justify-center gap-[5px] mb-2">
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+            </div>
+            <h1 className="text-orange-500 font-bold text-[19px]">
+              PETER PARKER
+            </h1>
+            <p className="text-gray-400 leading-none text-[14px]">Spider-Man</p>
+          </div>
+
+          {/* Testimonial 4 */}
+          <div className="bg-slate-800 flex-1 p-[20px] flex flex-col items-center rounded-[20px] shadow-lg">
+            <img
+              className="h-[115px] w-[115px] rounded-full mt-[10px] mb-[20px] border-2 border-orange-600"
+              src={manny}
+              alt="Manny Pacquiao"
+            />
+            <p className="text-center px-[30px] pb-[15px] text-[16px] text-gray-300">
+              Lorem ipsum dolor sit amet consectetur. Sit commodo non nunc nisl
+              id semper enim gravida eget.
+            </p>
+            <div className="flex flex-row justify-center gap-[5px] mb-2">
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+              <img src={star} alt="Star" className="w-[20px]" />
+            </div>
+            <h1 className="text-orange-500 font-bold text-[19px]">
+              MANNY PACQUIAO
+            </h1>
+            <p className="text-gray-400 leading-none text-[14px]">
+              Professional Boxer
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Footer */}
       <Footer />
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
