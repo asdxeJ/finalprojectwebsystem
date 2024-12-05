@@ -12,6 +12,8 @@ const Navbar = ({ onCartClick }: NavbarProps) => {
         <Link to="/">HOME</Link>
         <Link to="/Menu">MENU</Link>
         <Link to="/About">ABOUT US</Link>
+        <Link to="/Register">Register</Link>
+        <Link to="/Login">Login</Link>
       </div>
       <div className="mr-5 tracking-[3px] text-base">
         District <span className="text-orange-600 text-xl">Silog</span>

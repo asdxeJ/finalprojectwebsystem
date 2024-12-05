@@ -13,3 +13,14 @@ export interface Cart {
   quantity: number;
   menu: Menu;
 }
+
+export interface Register {
+  userName: string;
+  email: string;
+  password: string
+}
+
+export interface Login {
+  userName: string;
+  password: string;
+}
