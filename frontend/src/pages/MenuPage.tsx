@@ -24,20 +24,19 @@ const MenuPage = (props: Props) => {
 
   return (
     <>
-      <div className="bg-home-bg h-screen bg-cover">
+      <div className="bg-home-bg min-h-screen bg-cover flex flex-col">
         <Navbar onCartClick={() => setIsCartOpen(true)} />
-        <div className="flex">
-          <div className="mt-10 ml-10">
+        <div className="flex flex-1 overflow-hidden">
+          <div className="mt-10 ml-5">
             <SideNav />
           </div>
-          <div className="flex-1">
-            {/* Conditional rendering: only render MenuCardList if menu is defined */}
+          <div className="flex-1 overflow-y-auto p-5">
             {menu ? <MenuCardList menu={menu} /> : <p>Loading menu...</p>}
           </div>
         </div>
-        <Footer />
         <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       </div>
+      <Footer />
     </>
   );
 };

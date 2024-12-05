@@ -16,11 +16,13 @@ import { Button } from "../components/Button";
 import Footer from "../components/Footer";
 import { useState } from "react";
 import Cart from "../components/Cart";
+import { useNavigate } from "react-router-dom";
 
 interface Props {}
 
 const Home = (props: Props) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -40,7 +42,7 @@ const Home = (props: Props) => {
               crafted with love and tradition.
             </div>
             <div className="ml-20 mt-4 pl-10">
-              <Button>Order Now</Button>
+              <Button onClick={() => navigate("/Menu")}>Order Now</Button>
             </div>
           </div>
 
@@ -67,7 +69,7 @@ const Home = (props: Props) => {
             ea consequuntur quaerat ex tempora animi ipsa incidunt, perspiciatis
             quod harum maxime autem beatae aperiam inventore earum.
           </p>
-          <Button>Read More</Button>
+          <Button onClick={() => navigate("/About")}>Read More</Button>
         </div>
       </div>
       {/* Customer Favorites */}

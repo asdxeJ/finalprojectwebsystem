@@ -41,7 +41,7 @@ const MenuCard: React.FC<Props> = ({ menu }): JSX.Element => {
       >
         <div className="flex flex-col items-center">
           <img
-            className="border border-orange-600 mb-4 max-w-[200px]"
+            className="border border-orange-600 mb-4 "
             src={imageUrl}
             alt={menu.name}
           />
