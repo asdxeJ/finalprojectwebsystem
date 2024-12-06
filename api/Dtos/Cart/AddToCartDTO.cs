@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace api.Dtos.Cart
 {
-  public class UpdateCartQuantityDTO
+  public class AddToCartDTO
   {
     public int MenuId { get; set; }
+    [Required]
+    [Range(1, 20)]
     public int Quantity { get; set; }
   }
-
 }

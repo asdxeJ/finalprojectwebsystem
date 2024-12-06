@@ -24,6 +24,22 @@ namespace api.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // declare fk's
+            builder.Entity<Cart>(x => x.HasKey(c => new { c.AppUserId, c.MenuId }));
+
+            //connect them to the table
+            // foreign key relationships
+            builder.Entity<Cart>()
+                .HasOne(u => u.AppUser)
+                .WithMany(u => u.CartItems)
+                .HasForeignKey(c => c.AppUserId);
+
+            builder.Entity<Cart>()
+                .HasOne(u => u.Menu)
+                .WithMany(u => u.CartItems)
+                .HasForeignKey(c => c.MenuId);
+
             List<IdentityRole> roles = new List<IdentityRole>
             {
                 new IdentityRole

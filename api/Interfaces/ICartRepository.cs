@@ -9,10 +9,16 @@ namespace api.Interfaces
 {
     public interface ICartRepository
     {
-        Task<List<Cart>> GetAllAsync();
-        Task<Cart> CreateAsync(Cart cartModel);
-        Task<Cart?> GetByIdAsync(int id);
-        Task<Cart?> DeleteAsync(int id);
-        Task<Cart?> UpdateAsync(int id, UpdateCartDTO cartDTO);
+        // many to many 
+        Task<List<CartItemDTO>> GetUserCartAsync(AppUser user);
+        Task<Cart> CreateAsync(Cart cart);
+        Task<Cart?> FindCartItemAsync(string appUserId, int menuId);
+        Task UpdateCartItemAsync(Cart cart);
+        Task<Cart> DeleteCartItemAsync(AppUser appUser, int menuId);
+        Task<Cart> GetCartItemAsync(string userId, int menuId);
+        Task UpdateAsync(Cart cartItem);
+
+
+
     }
 }

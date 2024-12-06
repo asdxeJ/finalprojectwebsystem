@@ -12,8 +12,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241205175559_initShit")]
-    partial class initShit
+    [Migration("20241206180711_RemoveIdCart")]
+    partial class RemoveIdCart
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "23277828-46af-49ae-807b-6691a08de807",
+                            Id = "5bdd812b-1d19-450b-89d6-9c08b4bea560",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "50c22e42-301a-4f90-a257-fb59bd1cbc60",
+                            Id = "f6f639bf-4eb3-4041-9908-d40410f6d1bb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -251,22 +251,16 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Model.Cart", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MenuId")
+                    b.Property<int>("MenuId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("AppUserId", "MenuId");
 
                     b.HasIndex("MenuId");
 
@@ -358,11 +352,31 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Model.Cart", b =>
                 {
+                    b.HasOne("api.Model.AppUser", "AppUser")
+                        .WithMany("CartItems")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("api.Model.Menu", "Menu")
-                        .WithMany()
-                        .HasForeignKey("MenuId");
+                        .WithMany("CartItems")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Menu");
+                });
+
+            modelBuilder.Entity("api.Model.AppUser", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("api.Model.Menu", b =>
+                {
+                    b.Navigation("CartItems");
                 });
 #pragma warning restore 612, 618
         }
