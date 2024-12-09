@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api.Migrations
 {
     /// <inheritdoc />
-    public partial class CartManyToMany : Migration
+    public partial class ReInitialize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -184,7 +184,6 @@ namespace api.Migrations
                 {
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MenuId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -209,8 +208,8 @@ namespace api.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4e164e52-ad74-4d1b-8162-cf481cf76830", null, "User", "USER" },
-                    { "ca1aa416-bc0b-4a00-a033-bc1c6a1c8063", null, "Admin", "ADMIN" }
+                    { "852dacb4-2151-43df-bfe0-a9e5196e4cbb", null, "Admin", "ADMIN" },
+                    { "f8eec97f-dd14-44af-9f47-ea5b4cf9ed7f", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
