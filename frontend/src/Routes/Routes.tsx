@@ -5,6 +5,8 @@ import AboutPage from "../pages/AboutPage";
 import MenuPage from "../pages/MenuPage";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
+import CheckoutPage from "../pages/CheckoutPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path: "Login",
         element: <Login />,
+      },
+      {
+        path: "Checkout",
+        element: (
+          <ProtectedRoute>
+            <CheckoutPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

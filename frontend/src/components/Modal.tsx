@@ -1,13 +1,22 @@
 import React, { useState } from "react";
+import { cartPostApi } from "../Services/CartService";
+import { toast } from "react-toastify";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
+  menuId: number;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  menuId,
+  children,
+}) => {
   const [quantity, setQuantity] = useState(1);
 
   if (!isOpen) return null;
@@ -16,6 +25,21 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value > 0) {
       setQuantity(value);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      const response = await cartPostApi(menuId, quantity);
+
+      if (response && response.success) {
+        toast.success("Item added to cart!");
+        onClose(); // close modal after adding
+      } else {
+        toast.error("Failed to add item to cart.");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
     }
   };
 
@@ -60,9 +84,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
             Cancel
           </button>
           <button
-            onClick={() => {
-              onClose();
-            }}
+            onClick={handleAddToCart} // Add to cart action
             className="px-4 py-1 bg-orange-600 text-white rounded hover:bg-orange-500"
           >
             Add To Cart

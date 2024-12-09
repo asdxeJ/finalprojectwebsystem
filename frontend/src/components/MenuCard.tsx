@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Button } from "./Button";
 import { Menu } from "../../Menu";
 import Modal from "./Modal";
+import { useAuth } from "../../src/Context/useAuth";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   menu: Menu;
@@ -9,13 +12,23 @@ interface Props {
 
 const MenuCard: React.FC<Props> = ({ menu }): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLoggedIn } = useAuth(); // access the authentication context
+  const navigate = useNavigate();
 
-  const handleOpenModal = () => setIsModalOpen(true);
+  const handleOpenModal = () => {
+    if (!isLoggedIn()) {
+      toast.warning("Please log in to place an order.");
+      navigate("/Login"); // redirect to login if not logged in
+      return;
+    }
+    setIsModalOpen(true); // Open the modal if the user is logged in
+  };
+
   const handleCloseModal = () => setIsModalOpen(false);
 
   const imageUrl = menu.imageUrl
     ? `http://localhost:5026/Uploads/${menu.imageUrl}`
-    : "fallback-image.jpg"; // Use a placeholder image if menu.imageUrl is empty
+    : "fallback-image.jpg";
 
   return (
     <>
@@ -38,6 +51,7 @@ const MenuCard: React.FC<Props> = ({ menu }): JSX.Element => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         title="Add To Cart"
+        menuId={menu.id}
       >
         <div className="flex flex-col items-center">
           <img
