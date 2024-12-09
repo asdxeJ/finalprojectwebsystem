@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos;
 using api.Dtos.Account;
+using api.Extensions;
 using api.Interfaces;
 using api.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -103,5 +105,34 @@ namespace api.Controllers
                 }
             );
         }
+
+        [HttpGet("userinfo")]
+        [Authorize]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            // get current username that is authenthicated
+            var username = User.GetUsername();
+
+            // retrieve the user from the database using UserManager
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(x => x.UserName == username);
+
+            if (user == null)
+            {
+                return Unauthorized("User not found");
+            }
+
+            var userInfo = new UserInfoDTO
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                FullName = user.FirstName + " " + user.LastName,
+                Address = user.Address,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            return Ok(userInfo);
+        }
+
     }
 }

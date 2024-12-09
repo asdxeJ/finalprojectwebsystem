@@ -24,3 +24,11 @@ export interface Login {
   userName: string;
   password: string;
 }
+
+export interface UserInfo {
+  fullName: string;
+  email: string;
+  address: string;
+  phoneNumber: string;
+  userName: string;
+}

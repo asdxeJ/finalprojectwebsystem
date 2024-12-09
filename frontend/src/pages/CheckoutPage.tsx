@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { CartGet } from "../Models/Cart"; // Import the Cart type if needed
-import { cartGetApi } from "../Services/CartService"; // Assuming you have a service to get the cart items
+import { CartGet } from "../Models/Cart";
+import { cartGetApi } from "../Services/CartService";
+import { getUser } from "../../api";
+import { UserInfo } from "../../Menu";
 
 const CheckoutPage = () => {
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [cartItems, setCartItems] = useState<CartGet[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -10,6 +13,7 @@ const CheckoutPage = () => {
     name: "",
     email: "",
     address: "",
+    phone: "", // Added phone
   });
 
   // Fetch cart items when the page loads
@@ -28,6 +32,32 @@ const CheckoutPage = () => {
     fetchCartItems();
   }, []);
 
+  // Fetch user info when the page loads
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const user = await getUser();
+        if (user) {
+          setUserInfo(user);
+
+          // Pre-fill the form fields with user info
+          setFormData({
+            name: user.fullName || "",
+            email: user.email || "",
+            address: user.address || "",
+            phone: user.phoneNumber || "",
+          });
+        }
+      } catch (err) {
+        console.error("Failed to fetch user info.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   const calculateTotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -44,7 +74,7 @@ const CheckoutPage = () => {
   };
 
   const handleCheckout = () => {
-    // Handle the checkout process (you can integrate with a payment system)
+    // Handle the checkout process
     console.log("Form data submitted:", formData);
     alert("Checkout successful!");
   };
@@ -53,7 +83,7 @@ const CheckoutPage = () => {
     <div className="checkout-page p-6 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-bold text-center mb-6">Checkout</h1>
 
-      {loading && <p>Loading cart items...</p>}
+      {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
       {/* Order Summary */}
@@ -137,12 +167,30 @@ const CheckoutPage = () => {
             />
           </div>
 
+          <div className="mb-4">
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="phone"
+            >
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+
           <button
             type="submit"
             onClick={handleCheckout}
             className="w-full py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-400 transition"
           >
-            Complete Order
+            Place Order
           </button>
         </form>
       </div>

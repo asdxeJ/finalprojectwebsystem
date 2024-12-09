@@ -7,6 +7,7 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import CheckoutPage from "../pages/CheckoutPage";
 import ProtectedRoute from "./ProtectedRoute";
+import AdminDashboard from "../pages/AdminDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: "About",
         element: <AboutPage />,
+      },
+      {
+        path: "AdminDashboard",
+        element: <AdminDashboard />,
       },
       {
         path: "Register",

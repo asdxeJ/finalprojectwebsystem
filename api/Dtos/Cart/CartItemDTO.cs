@@ -16,6 +16,7 @@ namespace api.Dtos.Cart
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public int Quantity { get; set; }
+
     }
 
 }
