@@ -80,7 +80,7 @@ namespace api.Controllers
                 await _cartRepo.CreateAsync(cartModel);
             }
 
-            return Ok();
+            return Ok(new { success = true, message = "Item added to cart successfully." });
         }
 
         [HttpDelete]
