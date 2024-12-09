@@ -17,5 +17,6 @@ namespace api.Model
         public string ImageUrl { get; set; } = string.Empty;
 
         public List<Cart> CartItems { get; set; } = new List<Cart>();
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

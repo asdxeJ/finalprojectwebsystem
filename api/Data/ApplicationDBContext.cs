@@ -21,6 +21,8 @@ namespace api.Data
         // dbset allows us to search for the tables and create the data for us
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -39,6 +41,22 @@ namespace api.Data
                 .HasOne(u => u.Menu)
                 .WithMany(u => u.CartItems)
                 .HasForeignKey(c => c.MenuId);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.AppUser)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.AppUserId);
+
+            // OrderItem FK configuration
+            builder.Entity<OrderItem>()
+                .HasOne(oi => oi.Order)
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(oi => oi.OrderId);
+
+            builder.Entity<OrderItem>()
+                .HasOne(oi => oi.Menu)
+                .WithMany(m => m.OrderItems)
+                .HasForeignKey(oi => oi.MenuId);
 
             List<IdentityRole> roles = new List<IdentityRole>
             {
