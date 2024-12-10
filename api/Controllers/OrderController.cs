@@ -39,58 +39,44 @@ namespace api.Controllers
             if (appUser == null)
                 return Unauthorized("User not found.");
 
-            var orders = await _orderRepository.GetUserOrdersAsync(userName);
+            var orders = await _orderRepository.GetUserOrdersAsync(appUser.Id);
             return Ok(orders);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDTO)
+        public async Task<IActionResult> PostUserOrders()
         {
-            var userName = User.GetUsername();
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
 
-            if (string.IsNullOrEmpty(userName))
-                return Unauthorized("User not found.");
-
-            var appUser = await _userManager.FindByNameAsync(userName);
             if (appUser == null)
                 return Unauthorized("User not found.");
 
-            // Fetch the user's cart items
+            // retrieve user cart
             var userCart = await _cartRepository.GetUserCartAsync(appUser);
             if (userCart == null || !userCart.Any())
-                return BadRequest("No items in cart to create an order.");
+                return BadRequest("Cart is empty. Cannot create an order.");
 
-            var orderItems = new List<OrderItem>();
-
-            foreach (var cartItemDTO in userCart)
+            // Create a new Order object
+            var newOrder = new Order
             {
-                // Create the order item directly from the CartItemDTO
-                var orderItem = new OrderItem
-                {
-                    MenuId = cartItemDTO.MenuId,
-                    Quantity = cartItemDTO.Quantity,
-                    Price = cartItemDTO.Price  // Price is now directly available in CartItemDTO
-                };
-
-                orderItems.Add(orderItem);
-            }
-
-            // Create the order and set the total amount
-            var order = new Order
-            {
-                AppUserId = userName,
+                AppUserId = appUser.Id,
                 OrderDate = DateTime.UtcNow,
-                TotalAmount = orderItems.Sum(oi => oi.Quantity * oi.Price),  // Calculate total from order items
-                OrderItems = orderItems
+                TotalAmount = userCart.Sum(item => item.Quantity * item.Price),
+                OrderItems = userCart.Select(cartItem => new OrderItem
+                {
+                    MenuId = cartItem.MenuId,
+                    Quantity = cartItem.Quantity,
+                    Price = cartItem.Price
+                }).ToList(),
+                Status = "Pending" // Default status
             };
 
-            // Save the order to the database
-            var createdOrder = await _orderRepository.CreateOrderAsync(order);
+            await _orderRepository.CreateOrderAsync(newOrder);
 
-            // Optionally, clear the cart after the order is placed
-            // await _cartRepository.ClearCartAsync(appUser);
+            await _cartRepository.ClearCartAsync(appUser.Id);
 
-            return Ok(createdOrder);
+            return Ok(new { success = true, message = "Order created successfully.", orderId = newOrder.OrderId });
         }
 
     }

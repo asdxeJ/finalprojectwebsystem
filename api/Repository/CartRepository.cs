@@ -80,6 +80,35 @@ namespace api.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<CartItemDTO>> GetUserCartByIdAsync(string appUserId)
+        {
+            // Filter all carts by the user's ID
+            return await _context.Carts
+                .Where(u => u.AppUserId == appUserId)
+                .Select(cart => new CartItemDTO
+                {
+                    MenuId = cart.MenuId,
+                    Name = cart.Menu.Name,
+                    Category = cart.Menu.Category,
+                    Price = cart.Menu.Price,
+                    Description = cart.Menu.Description,
+                    ImageUrl = cart.Menu.ImageUrl,
+                    Quantity = cart.Quantity
+                })
+                .ToListAsync();
+        }
+
+        public async Task ClearCartAsync(string appUserId)
+        {
+            // Retrieve all cart items for the user
+            var userCartItems = await _context.Carts.Where(c => c.AppUserId == appUserId).ToListAsync();
+
+            if (userCartItems.Any())
+            {
+                _context.Carts.RemoveRange(userCartItems);
+                await _context.SaveChangesAsync();
+            }
+        }
 
 
         // public async Task<Cart?> DeleteAsync(int id)

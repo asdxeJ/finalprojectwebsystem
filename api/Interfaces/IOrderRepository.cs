@@ -5,7 +5,7 @@ namespace api.Interfaces
 {
     public interface IOrderRepository
     {
-        Task<List<OrderDTO>> GetUserOrdersAsync(string userId);
+        Task<List<OrderDTO>> GetUserOrdersAsync(string userName);
         Task<Order> CreateOrderAsync(Order order);
     }
 }

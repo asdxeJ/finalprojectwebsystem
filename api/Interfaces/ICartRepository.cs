@@ -11,14 +11,14 @@ namespace api.Interfaces
     {
         // many to many 
         Task<List<CartItemDTO>> GetUserCartAsync(AppUser user);
+        Task<List<CartItemDTO>> GetUserCartByIdAsync(string appUserId);
         Task<Cart> CreateAsync(Cart cart);
         Task<Cart?> FindCartItemAsync(string appUserId, int menuId);
         Task UpdateCartItemAsync(Cart cart);
         Task<Cart> DeleteCartItemAsync(AppUser appUser, int menuId);
         Task<Cart> GetCartItemAsync(string userId, int menuId);
         Task UpdateAsync(Cart cartItem);
-
-
+        Task ClearCartAsync(string appUserId);
 
     }
 }

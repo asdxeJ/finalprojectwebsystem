@@ -22,7 +22,9 @@ namespace api.Repository
                 .Select(o => new OrderDTO
                 {
                     Id = o.OrderId,
+                    AppUserId = o.AppUserId,
                     OrderDate = o.OrderDate,
+                    Status = o.Status,
                     TotalAmount = o.TotalAmount,
                     OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
                     {
