@@ -3,6 +3,7 @@ import { CartGet } from "../Models/Cart";
 import { cartGetApi } from "../Services/CartService";
 import { getUser } from "../../api";
 import { UserInfo } from "../../Menu";
+import { orderPostApi } from "../Services/OrderService"; // Import orderPostApi
 
 const CheckoutPage = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -73,10 +74,32 @@ const CheckoutPage = () => {
     }));
   };
 
-  const handleCheckout = () => {
-    // Handle the checkout process
-    console.log("Form data submitted:", formData);
-    alert("Checkout successful!");
+  const handleCheckout = async () => {
+    try {
+      // Prepare the order data with the correct structure
+      const orderData = {
+        orderDate: new Date().toISOString(), // Set current date as the order date
+        totalAmount: calculateTotal(), // Total amount of the order
+        orderItems: cartItems.map((item) => ({
+          menuId: item.menuId, // Menu item ID
+          menuName: item.name, // Menu item name
+          quantity: item.quantity, // Quantity ordered
+          price: item.price, // Price of the item
+        })),
+        // Optional: add user info and shipping details if needed
+        userId: userInfo?.userName, // Assuming userInfo has userName or another identifier
+      };
+
+      // Call orderPostApi to post the order
+      const response = await orderPostApi(orderData);
+      console.log("Order created successfully", response);
+
+      // Handle success (e.g., show a success message or redirect)
+      alert("Order placed successfully!");
+    } catch (err) {
+      console.error("Failed to place order", err);
+      setError("Failed to place the order.");
+    }
   };
 
   return (

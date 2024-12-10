@@ -7,7 +7,11 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import CheckoutPage from "../pages/CheckoutPage";
 import ProtectedRoute from "./ProtectedRoute";
-import AdminDashboard from "../pages/AdminDashboard";
+import Admin from "../pages/Admin";
+import Dashboard from "../components/Dashboard";
+import AdminMenu from "../components/AdminMenu";
+// import Orders from "../pages/Orders";
+// import Products from "../pages/Products";
 
 export const router = createBrowserRouter([
   {
@@ -27,8 +31,18 @@ export const router = createBrowserRouter([
         element: <AboutPage />,
       },
       {
-        path: "AdminDashboard",
-        element: <AdminDashboard />,
+        path: "Admin",
+        element: <Admin />,
+        children: [
+          {
+            path: "Dashboard",
+            element: <Dashboard />,
+          },
+          {
+            path: "AdminMenu",
+            element: <AdminMenu />,
+          },
+        ],
       },
       {
         path: "Register",

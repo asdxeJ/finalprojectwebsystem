@@ -1,5 +1,6 @@
 import { Menu, UserInfo } from "./Menu";
 import axios from "axios";
+import { handleError } from "./src/Helpers/ErrorHandler";
 
 const api = "http://localhost:5026/api";
 
@@ -34,5 +35,27 @@ export const getUser = async (): Promise<UserInfo | null> => {
   } catch (error: any) {
     console.error("Error fetching user info:", error.message);
     return null;
+  }
+};
+
+export const deleteMenu = async (id: string): Promise<void> => {
+  try {
+    await axios.delete(`${api}/${id}`);
+  } catch (error) {
+    handleError(error);
+    throw error;
+  }
+};
+
+export const updateMenu = async (
+  id: string,
+  updatedData: Partial<Menu>
+): Promise<Menu> => {
+  try {
+    const response = await axios.put<Menu>(`${api}/${id}`, updatedData);
+    return response.data;
+  } catch (error) {
+    handleError(error);
+    throw error;
   }
 };
