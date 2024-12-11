@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Menu } from "../../Menu";
+import { Menu } from "../../../Menu";
 import { toast } from "react-toastify";
-import { deleteMenu, getMenu, updateMenu } from "../../api";
-import EditModal from "./EditModal";
+import { deleteMenu, getMenu, updateMenu } from "../../../api";
+import EditModal from "../EditModal";
 import AddMenuModal from "./AddMenuModal";
 
-const MenuPage = () => {
+const ManageMenu = () => {
   const [menu, setMenu] = useState<Menu[] | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
@@ -67,7 +67,7 @@ const MenuPage = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col p-6">
       <h1 className="text-3xl font-semibold mb-8 text-center text-gray-800">
-        Menu
+        Manage Menu
       </h1>
 
       <button
@@ -143,4 +143,4 @@ const MenuPage = () => {
   );
 };
 
-export default MenuPage;
+export default ManageMenu;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { AddMenuApi } from "../Services/MenuService";
+import { AddMenuApi } from "../../Services/MenuService";
 import { toast } from "react-toastify"; // Import toast
-import { Menu } from "../../Menu";
+import { Menu } from "../../../Menu";
 
 interface Props {
   isOpen: boolean;

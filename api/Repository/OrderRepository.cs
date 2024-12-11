@@ -68,12 +68,15 @@ namespace api.Repository
         public async Task<List<OrderDTO>> GetAllOrdersAsync()
         {
             return await _context.Orders
+                .Include(o => o.AppUser)  // Include the AppUser to access UserName and PhoneNumber
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Menu)
                 .Select(o => new OrderDTO
                 {
                     Id = o.OrderId,
                     AppUserId = o.AppUserId,
+                    CustomerName = o.AppUser.FirstName + " " + o.AppUser.LastName,
+                    PhoneNumber = o.AppUser.PhoneNumber,
                     OrderDate = o.OrderDate,
                     Status = o.Status,
                     TotalAmount = o.TotalAmount,
@@ -88,6 +91,7 @@ namespace api.Repository
                 })
                 .ToListAsync();
         }
+
 
 
     }

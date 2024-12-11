@@ -8,8 +8,9 @@ import Login from "../pages/Login";
 import CheckoutPage from "../pages/CheckoutPage";
 import ProtectedRoute from "./ProtectedRoute";
 import Admin from "../pages/Admin";
-import Dashboard from "../components/Dashboard";
-import AdminMenu from "../components/AdminMenu";
+import Dashboard from "../components/Admin/Dashboard";
+import ManageMenu from "../components/Admin/ManageMenu";
+import ManageOrders from "../components/Admin/ManageOrders";
 // import Orders from "../pages/Orders";
 // import Products from "../pages/Products";
 
@@ -39,8 +40,12 @@ export const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: "AdminMenu",
-            element: <AdminMenu />,
+            path: "ManageMenu",
+            element: <ManageMenu />,
+          },
+          {
+            path: "ManageOrders",
+            element: <ManageOrders />,
           },
         ],
       },

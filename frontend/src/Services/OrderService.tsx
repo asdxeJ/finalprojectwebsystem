@@ -17,6 +17,19 @@ export const orderPostApi = async (orderData: Partial<Order>) => {
   }
 };
 
+export const orderGetAllApi = async () => {
+  try {
+    const response = await axios.get<Order[]>(api, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const orderGetApi = async () => {
   try {
     const response = await axios.get<Order[]>(api + "user", {

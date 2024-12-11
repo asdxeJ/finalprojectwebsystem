@@ -25,7 +25,7 @@ const AdminSidenav = () => {
           </li>
           <li>
             <NavLink
-              to="/admin/adminmenu"
+              to="/admin/managemenu"
               className={({ isActive }) =>
                 `block py-2 px-4 rounded-lg ${
                   isActive ? "bg-blue-600" : "hover:bg-gray-700"
@@ -33,6 +33,18 @@ const AdminSidenav = () => {
               }
             >
               Menu
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/manageorders"
+              className={({ isActive }) =>
+                `block py-2 px-4 rounded-lg ${
+                  isActive ? "bg-blue-600" : "hover:bg-gray-700"
+                }`
+              }
+            >
+              Orders
             </NavLink>
           </li>
         </ul>

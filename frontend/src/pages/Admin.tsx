@@ -1,4 +1,4 @@
-import AdminSidenav from "../components/AdminSidenav";
+import AdminSidenav from "../components/Admin/AdminSidenav";
 import { Outlet } from "react-router-dom";
 
 type Props = {};

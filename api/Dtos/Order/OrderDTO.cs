@@ -8,6 +8,8 @@ namespace api.Dtos.Order
         public string Status { get; set; } = "Pending";
         public decimal TotalAmount { get; set; }
         public string DeliveryAddress { get; set; }
+        public string CustomerName { get; set; }
+        public string PhoneNumber { get; set; }
         public List<OrderItemDTO> OrderItems { get; set; }
     }
 }
