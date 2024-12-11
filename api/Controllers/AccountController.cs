@@ -134,5 +134,23 @@ namespace api.Controllers
             return Ok(userInfo);
         }
 
+        [HttpGet("users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userManager.Users
+                .Select(user => new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                    user.PhoneNumber
+                })
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
     }
 }

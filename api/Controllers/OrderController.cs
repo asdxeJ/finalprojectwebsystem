@@ -26,8 +26,19 @@ namespace api.Controllers
             _cartRepository = cartRepository;
         }
 
-        // Get all orders for a logged-in user
+        // Get all orders
         [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _orderRepository.GetAllOrdersAsync();
+
+            if (orders == null || !orders.Any())
+                return NotFound("No orders found.");
+
+            return Ok(orders);
+        }
+
+        [HttpGet("user")]
         public async Task<IActionResult> GetUserOrders()
         {
             var userName = User.GetUsername();
@@ -77,6 +88,46 @@ namespace api.Controllers
             await _cartRepository.ClearCartAsync(appUser.Id);
 
             return Ok(new { success = true, message = "Order created successfully.", orderId = newOrder.OrderId });
+        }
+
+        [HttpPut("{orderId}")]
+        public async Task<IActionResult> UpdateOrder(int orderId, [FromBody] UpdateOrderDTO updateOrderDTO)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            if (appUser == null)
+                return Unauthorized("User not found.");
+
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+
+            if (order == null || order.AppUserId != appUser.Id)
+                return NotFound("Order not found.");
+
+            order.Status = updateOrderDTO.Status ?? order.Status;
+
+            await _orderRepository.UpdateOrderAsync(order);
+
+            return Ok(new { success = true, message = "Order updated successfully." });
+        }
+
+        [HttpDelete("{orderId}")]
+        public async Task<IActionResult> DeleteOrder(int orderId)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            if (appUser == null)
+                return Unauthorized("User not found.");
+
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+
+            if (order == null || order.AppUserId != appUser.Id)
+                return NotFound("Order not found.");
+
+            await _orderRepository.DeleteOrderAsync(order);
+
+            return Ok(new { success = true, message = "Order deleted successfully." });
         }
 
     }

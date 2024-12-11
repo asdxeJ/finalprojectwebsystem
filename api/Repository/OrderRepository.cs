@@ -37,11 +37,58 @@ namespace api.Repository
                 .ToListAsync();
         }
 
+
+
         public async Task<Order> CreateOrderAsync(Order order)
         {
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
             return order;
         }
+
+        public async Task<Order> GetOrderByIdAsync(int orderId)
+        {
+            return await _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+        }
+
+        public async Task UpdateOrderAsync(Order order)
+        {
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteOrderAsync(Order order)
+        {
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<OrderDTO>> GetAllOrdersAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Menu)
+                .Select(o => new OrderDTO
+                {
+                    Id = o.OrderId,
+                    AppUserId = o.AppUserId,
+                    OrderDate = o.OrderDate,
+                    Status = o.Status,
+                    TotalAmount = o.TotalAmount,
+                    DeliveryAddress = o.AppUser.Address,
+                    OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
+                    {
+                        MenuId = oi.MenuId,
+                        MenuName = oi.Menu.Name,
+                        Quantity = oi.Quantity,
+                        Price = oi.Price
+                    }).ToList()
+                })
+                .ToListAsync();
+        }
+
+
     }
 }

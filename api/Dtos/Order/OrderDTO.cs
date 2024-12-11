@@ -7,6 +7,7 @@ namespace api.Dtos.Order
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public string Status { get; set; } = "Pending";
         public decimal TotalAmount { get; set; }
+        public string DeliveryAddress { get; set; }
         public List<OrderItemDTO> OrderItems { get; set; }
     }
 }
