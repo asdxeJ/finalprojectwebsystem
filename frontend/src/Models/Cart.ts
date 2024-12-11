@@ -16,3 +16,8 @@ export type CartPost = {
 export type CartDelete = {
   menuId: number;
 }
+
+export type CartUpdate = {
+  menuId: number;
+  quantity: number
+}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CartGet, CartPost } from "../Models/Cart";
+import { CartGet, CartPost, CartUpdate } from "../Models/Cart";
 import { handleError } from "../Helpers/ErrorHandler";
 
 const api = "http://localhost:5026/api/cart/";
@@ -44,5 +44,19 @@ export const cartGetApi = async () => {
   } catch (error) {
     handleError(error);
     return [];
+  }
+};
+
+export const cartUpdateApi = async (menuId: number, quantity: number) => {
+  try {
+    const cartUpdateData: CartUpdate = { menuId, quantity };
+    const response = await axios.put(`${api}`, cartUpdateData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    handleError(error);
   }
 };

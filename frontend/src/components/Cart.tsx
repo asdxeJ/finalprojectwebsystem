@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
-import { cartGetApi, cartDeleteApi } from "../Services/CartService";
+import {
+  cartGetApi,
+  cartDeleteApi,
+  cartUpdateApi,
+} from "../Services/CartService";
 import { Trash } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface CartItem {
   menuId: number;
@@ -14,8 +19,8 @@ interface CartItem {
 }
 
 interface Props {
-  isOpen: boolean; // Controls if the cart is visible
-  onClose: () => void; // Function to close the cart
+  isOpen: boolean; // controls if the cart is visible
+  onClose: () => void; // function to close the cart
 }
 
 const Cart = ({ isOpen, onClose }: Props) => {
@@ -28,8 +33,8 @@ const Cart = ({ isOpen, onClose }: Props) => {
     const fetchCartItems = async () => {
       setLoading(true);
       try {
-        const items = await cartGetApi(); // Fetching cart items from API
-        setCartItems(items); // Storing the fetched items in state
+        const items = await cartGetApi();
+        setCartItems(items);
       } catch (error) {
         setError("Failed to load cart items.");
       } finally {
@@ -42,13 +47,26 @@ const Cart = ({ isOpen, onClose }: Props) => {
     }
   }, [isOpen]);
 
-  const handleQuantityChange = (menuId: number, quantity: number) => {
-    if (quantity < 1) return; // Prevent negative quantities
+  const handleQuantityChange = async (menuId: number, quantity: number) => {
+    if (quantity < 1) return; // prevent negative quantities
+
     setCartItems((prevItems) =>
       prevItems.map((item) =>
         item.menuId === menuId ? { ...item, quantity } : item
       )
     );
+
+    try {
+      await cartUpdateApi(menuId, quantity);
+    } catch (error) {
+      // revert UI update if error occurs
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.menuId === menuId ? { ...item, quantity: item.quantity } : item
+        )
+      );
+      toast.error("Failed to update the cart item quantity.");
+    }
   };
 
   const handleDeleteItem = async (menuId: number) => {
@@ -68,6 +86,14 @@ const Cart = ({ isOpen, onClose }: Props) => {
       (total, item) => total + item.price * item.quantity,
       0
     );
+  };
+
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      alert("Your cart is empty. Please add items before checking out.");
+      return; // prevent navigation if cart is empty
+    }
+    navigate("/Checkout");
   };
 
   return (
@@ -99,15 +125,14 @@ const Cart = ({ isOpen, onClose }: Props) => {
                     : "https://via.placeholder.com/50"
                 }
                 alt={item.name}
-                className="w-14 h-14 rounded-md mr-4 object-cover"
+                className="w-16 h-16 rounded-md mr-4 object-cover"
               />
               <div className="flex-1">
                 <h2 className="text-lg font-semibold">{item.name}</h2>
-                <p className="text-sm text-gray-400">{item.category}</p>
                 <div className="flex items-center space-x-4 mt-3">
                   <label
                     htmlFor={`quantity-${item.menuId}`}
-                    className="text-sm text-gray-300"
+                    className="text-sm text-gray-300 pb-1"
                   >
                     Quantity:
                   </label>
@@ -122,7 +147,7 @@ const Cart = ({ isOpen, onClose }: Props) => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-12 px-2 py-1 bg-gray-600 rounded text-center text-white"
+                    className="w-8 pl-2 bg-gray-600 rounded text-center text-white"
                   />
                 </div>
               </div>
@@ -144,16 +169,16 @@ const Cart = ({ isOpen, onClose }: Props) => {
         )}
       </div>
       {cartItems.length > 0 && (
-        <div className="mt-4 text-center">
-          <p className="font-semibold text-2xl text-green-500">
+        <div className="mt-4 text-right">
+          <p className="font-semibold text-lg text-green-500">
             Total: ${calculateTotal().toFixed(2)}
           </p>
         </div>
       )}
       <div className="mt-6">
         <button
-          onClick={() => navigate("/Checkout")}
-          className="w-full py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-400 transition"
+          onClick={handleCheckout}
+          className="w-full py-2 bg-orange-600 text-white font-bold rounded-lg hover:bg-green-400 transition"
         >
           Checkout
         </button>
