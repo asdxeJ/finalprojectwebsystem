@@ -6,9 +6,10 @@ import UserOrderModal from "./UserOrderModal";
 
 interface NavbarProps {
   onCartClick: () => void;
+  cartCount: number; // Add a prop for the cart count
 }
 
-const Navbar = ({ onCartClick }: NavbarProps) => {
+const Navbar = ({ onCartClick, cartCount }: NavbarProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false); // Manage modal visibility
   const { user, logout } = useAuth();
@@ -29,17 +30,10 @@ const Navbar = ({ onCartClick }: NavbarProps) => {
           <Link to="/">HOME</Link>
           <Link to="/Menu">MENU</Link>
           <Link to="/About">ABOUT US</Link>
-          {!user && (
-            <>
-              <Link to="/Register">Register</Link>
-              <Link to="/Login">Login</Link>
-            </>
-          )}
-          <Link to="/Admin">Admin</Link>
         </div>
 
         <div className="mr-5 tracking-[3px] text-base">
-          District <span className="text-orange-600 text-xl">Silog</span>
+          Street <span className="text-orange-600 text-xl">Silog</span>
         </div>
 
         <div className="flex items-center">
@@ -76,11 +70,17 @@ const Navbar = ({ onCartClick }: NavbarProps) => {
             </div>
           ) : null}
           <div
-            className="flex items-center ml-2 cursor-pointer"
+            className="flex items-center ml-2 relative cursor-pointer"
             onClick={onCartClick}
           >
             <strong className="pr-1">MY CART</strong>
             <ShoppingBasket className="text-orange-600" />
+            {/* Badge for cart count */}
+            {cartCount > 0 && (
+              <span className="absolute top-1 right-3 translate-x-1/2 -translate-y-1/2 bg-red-600 text-white text-xs font-bold w-3 h-3 flex items-center justify-center rounded-full">
+                {cartCount}
+              </span>
+            )}
           </div>
         </div>
       </nav>

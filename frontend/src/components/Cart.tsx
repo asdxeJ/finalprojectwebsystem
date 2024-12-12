@@ -82,10 +82,11 @@ const Cart = ({ isOpen, onClose }: Props) => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce(
+    const total = cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
+    return total.toLocaleString(); // Format with commas
   };
 
   const handleCheckout = () => {
@@ -147,13 +148,13 @@ const Cart = ({ isOpen, onClose }: Props) => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-8 pl-2 bg-gray-600 rounded text-center text-white"
+                    className="w-12 pl-2 bg-gray-600 rounded text-center text-white"
                   />
                 </div>
               </div>
               <div className="flex items-center space-x-2">
                 <p className="font-semibold text-lg">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  ₱{(item.price * item.quantity).toFixed(2).toLocaleString()}
                 </p>
                 <button
                   onClick={() => handleDeleteItem(item.menuId)}
@@ -171,7 +172,7 @@ const Cart = ({ isOpen, onClose }: Props) => {
       {cartItems.length > 0 && (
         <div className="mt-4 text-right">
           <p className="font-semibold text-lg text-green-500">
-            Total: ${calculateTotal().toFixed(2)}
+            Total: ₱{calculateTotal()}.00 {/* Ensure two decimal places */}
           </p>
         </div>
       )}

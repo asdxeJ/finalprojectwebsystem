@@ -11,6 +11,7 @@ import Admin from "../pages/Admin";
 import Dashboard from "../components/Admin/Dashboard";
 import ManageMenu from "../components/Admin/ManageMenu";
 import ManageOrders from "../components/Admin/ManageOrders";
+import Users from "../components/Admin/Users";
 // import Orders from "../pages/Orders";
 // import Products from "../pages/Products";
 
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
           {
             path: "ManageOrders",
             element: <ManageOrders />,
+          },
+          {
+            path: "Users",
+            element: <Users />,
           },
         ],
       },

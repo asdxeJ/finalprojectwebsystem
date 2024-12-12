@@ -130,5 +130,32 @@ namespace api.Controllers
             return Ok(new { success = true, message = "Order deleted successfully." });
         }
 
+        [HttpDelete("admin/delete/{orderId}")]
+        public async Task<IActionResult> AdminDeleteOrder(int orderId)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+
+            if (order == null)
+                return NotFound("Order not found.");
+
+            await _orderRepository.DeleteOrderAsync(order);
+
+            return Ok(new { success = true, message = "Order deleted successfully." });
+        }
+
+        [HttpPut("admin/update/{orderId}")]
+        public async Task<IActionResult> AdminUpdateOrder(int orderId, [FromBody] UpdateOrderDTO updateOrderDTO)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+
+            if (order == null)
+                return NotFound("Order not found.");
+
+            order.Status = updateOrderDTO.Status ?? order.Status;
+
+            await _orderRepository.UpdateOrderAsync(order);
+
+            return Ok(new { success = true, message = "Order updated successfully." });
+        }
     }
 }

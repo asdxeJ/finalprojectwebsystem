@@ -120,7 +120,7 @@ const CheckoutPage = () => {
                 <p>
                   {item.name} x{item.quantity}
                 </p>
-                <p>${(item.price * item.quantity).toFixed(2)}</p>
+                <p>₱{(item.price * item.quantity).toFixed(2)}</p>
               </div>
             ))
           ) : (
@@ -129,7 +129,7 @@ const CheckoutPage = () => {
         </div>
         <div className="flex justify-between font-semibold mt-4">
           <span>Total</span>
-          <span>${calculateTotal().toFixed(2)}</span>
+          <span>₱{calculateTotal().toFixed(2)}</span>
         </div>
       </div>
       {/* Payment Information Form */}

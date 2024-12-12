@@ -16,7 +16,10 @@ const UserOrderModal = ({ onClose }: UserOrderModalProps) => {
     const fetchOrders = async () => {
       try {
         const data = await orderGetApi();
-        setOrders(data);
+        const filteredOrders = data.filter(
+          (order: Order) => order.status !== "Completed"
+        );
+        setOrders(filteredOrders);
       } catch (error) {
         console.error("Error fetching orders:", error);
         toast.error("Failed to fetch orders.");

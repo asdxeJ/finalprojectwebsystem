@@ -32,16 +32,17 @@ const MenuCard: React.FC<Props> = ({ menu }): JSX.Element => {
 
   return (
     <>
-      <div className="bg-black p-3 max-w-[230px]">
+      <div className="bg-black p-3 w-[200px] h-[250px]">
         <img
-          className="border border-orange-600"
+          className="border border-orange-600 w-full h-40 object-cover"
           src={imageUrl}
           alt={menu.name}
         />
         <div className="text-white flex flex-col items-center justify-center font-inknut">
           <h3>{menu.name}</h3>
           <div className="flex gap-3">
-            <p>${menu.price}</p>
+            <p>₱{parseFloat(menu.price).toFixed(2)}</p>
+
             <Button onClick={handleOpenModal}>Order Now</Button>
           </div>
         </div>
@@ -55,13 +56,15 @@ const MenuCard: React.FC<Props> = ({ menu }): JSX.Element => {
       >
         <div className="flex flex-col items-center">
           <img
-            className="border border-orange-600 mb-4 "
+            className="border border-orange-600 mb-4 w-40 h-40 object-cover"
             src={imageUrl}
             alt={menu.name}
           />
           <div className="flex gap-2">
             <p className="font-inknut text-lg">{menu.name}</p>
-            <p className="text-orange-600">${menu.price}</p>
+            <p className="text-orange-600">
+              ₱{parseFloat(menu.price).toFixed(2)}
+            </p>
           </div>
         </div>
       </Modal>

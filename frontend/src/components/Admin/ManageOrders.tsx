@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
-  orderDeleteApi,
+  orderAdminDeleteApi,
+  orderAdminUpdateApi,
   orderGetAllApi,
-  orderUpdateApi,
 } from "../../Services/OrderService";
 import OrderItemsModal from "./OrderItemsModal";
 
@@ -52,7 +52,7 @@ const ManageOrders = () => {
     if (!window.confirm("Are you sure you want to delete this order?")) return;
 
     try {
-      await orderDeleteApi(orderId);
+      await orderAdminDeleteApi(orderId);
       setOrders(
         (prevOrders) =>
           prevOrders?.filter((order) => order.id !== orderId) || null
@@ -68,7 +68,7 @@ const ManageOrders = () => {
 
   const handleUpdateStatus = async (id: number, newStatus: string) => {
     try {
-      await orderUpdateApi(id, { status: newStatus });
+      await orderAdminUpdateApi(id, { status: newStatus });
       setOrders(
         orders.map((order) =>
           order.id === id ? { ...order, status: newStatus } : order
@@ -123,9 +123,6 @@ const ManageOrders = () => {
             <thead>
               <tr className="text-left bg-gray-200">
                 <th className="py-3 px-4 border-b text-sm font-semibold text-gray-600">
-                  Order ID
-                </th>
-                <th className="py-3 px-4 border-b text-sm font-semibold text-gray-600">
                   Customer Name
                 </th>
                 <th className="py-3 px-4 border-b text-sm font-semibold text-gray-600">
@@ -155,9 +152,6 @@ const ManageOrders = () => {
               {filteredOrders.map((order) => (
                 <tr key={order.id} className="text-sm">
                   <td className="py-3 px-4 border-b text-gray-800">
-                    {order.id}
-                  </td>
-                  <td className="py-3 px-4 border-b text-gray-800">
                     {order.customerName}
                   </td>
                   <td className="py-3 px-4 border-b text-gray-800">
@@ -177,7 +171,7 @@ const ManageOrders = () => {
                     </select>
                   </td>
                   <td className="py-3 px-4 border-b text-gray-800">
-                    ${order.totalAmount.toFixed(2)}
+                    ₱{order.totalAmount.toFixed(2)}
                   </td>
                   <td className="py-3 px-4 border-b text-gray-800">
                     {new Date(order.orderDate).toLocaleDateString()}

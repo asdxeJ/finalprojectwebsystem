@@ -65,62 +65,69 @@ const ManageMenu = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col p-6">
-      <h1 className="text-3xl font-semibold mb-8 text-center text-gray-800">
-        Manage Menu
-      </h1>
+    <div className="bg-gray-100 h-screen flex flex-col">
+      {/* Fixed Header */}
+      <div className="p-6 bg-gray-200 shadow-md">
+        <h1 className="text-3xl font-semibold text-center text-gray-800">
+          Manage Menu
+        </h1>
+        <button
+          onClick={() => setIsAddModalOpen(true)} // Open AddMenuModal
+          className="mt-4 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 block mx-auto"
+        >
+          Add New Menu Item
+        </button>
+      </div>
 
-      <button
-        onClick={() => setIsAddModalOpen(true)} // Open AddMenuModal
-        className="bg-green-600 text-white py-2 px-4 rounded-md mb-4 hover:bg-green-700"
-      >
-        Add New Menu Item
-      </button>
-
-      {loading ? (
-        <p className="text-center text-gray-600">Loading...</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {menu?.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden flex flex-col"
-            >
-              <img
-                src={getImageUrl(item.imageUrl)}
-                alt={item.name}
-                className="w-full h-40 object-cover"
-              />
-              <div className="p-4 flex flex-col">
-                <h2 className="text-lg font-semibold text-gray-800 mb-1">
-                  {item.name}
-                </h2>
-                <p className="text-sm text-gray-600 mb-2">{item.description}</p>
-                <p className="text-sm text-gray-500 mb-1">
-                  Category: {item.category}
-                </p>
-                <p className="text-gray-800 font-medium text-base mb-3">
-                  Price: {item.price}
-                </p>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => handleEdit(item)}
-                    className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(item.id)}
-                    className="bg-red-600 text-white text-sm px-3 py-1 rounded-md hover:bg-red-700"
-                  >
-                    Delete
-                  </button>
+      {/* Scrollable Menu Items */}
+      <div className="flex-grow overflow-y-auto p-6 mb-5">
+        {loading ? (
+          <p className="text-center text-gray-600">Loading...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {menu?.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden flex flex-col"
+              >
+                <img
+                  src={getImageUrl(item.imageUrl)}
+                  alt={item.name}
+                  className="w-full h-40 object-cover"
+                />
+                <div className="p-4 flex flex-col">
+                  <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                    {item.name}
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-2">
+                    {item.description}
+                  </p>
+                  <p className="text-sm text-gray-500 mb-1">
+                    Category: {item.category}
+                  </p>
+                  <p className="text-gray-800 font-medium text-base mb-3">
+                    Price: ₱{parseFloat(item.price).toFixed(2)}
+                  </p>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => handleEdit(item)}
+                      className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="bg-red-600 text-white text-sm px-3 py-1 rounded-md hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
 
       {isEditModalOpen && selectedMenu && (
         <EditModal

@@ -73,3 +73,38 @@ export const orderDeleteApi = async (orderId: number) => {
     handleError(error);
   }
 };
+
+// admin update
+export const orderAdminUpdateApi = async (
+  orderId: number,
+  updateData: Partial<Order>
+) => {
+  try {
+    const response = await axios.put(
+      `${api}admin/update/${orderId}`,
+      updateData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+// admin delete
+export const orderAdminDeleteApi = async (orderId: number) => {
+  try {
+    const response = await axios.delete(`${api}admin/delete/${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+};

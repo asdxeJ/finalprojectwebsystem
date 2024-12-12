@@ -28,9 +28,7 @@ const Home = (props: Props) => {
     <>
       <div className="bg-home-bg bg-cover min-h-[695px]">
         <Navbar onCartClick={() => setIsCartOpen(true)} />
-        <div>
-          <img className="h-22 w-16 ml-5" src={logo} />
-        </div>
+        <div>.</div>
 
         <div className="flex ml-28">
           <div className="flex flex-col flex-1 justify-center text-white tracking-widest">
